@@ -1,7 +1,7 @@
 # Usage
 ## compile 
 source /opt/intel/oneapi/2024.1/oneapi-vars.sh  
-mpiicpx -o mpi_performance_score mpi_performance_score.cpp
+mpiicpx -fsycl -o mpi_performance_score mpi_performance_score.cpp
 ## Run
 mpirun -np 2 -ppn 1 ./mpi_performance_score
 

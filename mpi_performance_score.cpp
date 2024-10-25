@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     }).wait();
     
     // Initialize variables to accumulate times
-    const int iterations = 1000;
+    const int iterations = 100;
     double total_copy_to_gpu_time = 0.0;
     double total_compute_time = 0.0;
     double total_copy_to_host_time = 0.0;

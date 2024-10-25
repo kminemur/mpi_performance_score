@@ -21,8 +21,18 @@ int main(int argc, char *argv[]) {
         std::cout << "MPI Version: " << version << "." << subversion << std::endl;
     }
 
-    // Set up a DPC++ queue to target the GPU
+    // Get and print the oneAPI version
+    const char* oneapi_version = std::getenv("ONEAPI_VERSION");
+    if (rank == 0 && oneapi_version) {
+        std::cout << "oneAPI Version: " << oneapi_version << std::endl;
+    }
+
+    // Set up a DPC++ queue to target the GPU and print backend information
     queue q{gpu_selector{}};
+    if (rank == 0) {
+        std::cout << "Running on device: " << q.get_device().get_info<info::device::name>() << std::endl;
+        std::cout << "Backend: " << q.get_device().get_info<info::device::vendor>() << std::endl;
+    }
 
     // Define the size of the data (increase the workload)
     const int N = 1000000000;

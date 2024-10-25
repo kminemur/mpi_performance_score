@@ -35,8 +35,8 @@ int main(int argc, char *argv[]) {
     }
 
     // Define the size of the data (increase the workload)
-    const int N = 10000000000;
-    const int local_N = N / size;
+    const long int N = 10000000000;
+    const long int local_N = N / size;
     std::vector<float> data(local_N, rank);
 
     // Allocate memory on the GPU for each rank's portion of the data

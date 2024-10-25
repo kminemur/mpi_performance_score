@@ -64,9 +64,9 @@ int main(int argc, char** argv) {
         elapsed_times[i] = end_time - start_time;
 
         // Print the result and the time taken for this iteration
-        std::cout << "Processor " << processor_name << ", rank " << world_rank
-                  << " out of " << world_size << " processors: iteration " << i + 1
-                  << ", result = " << result << ", time = " << elapsed_times[i] << " seconds" << std::endl;
+        //std::cout << "Processor " << processor_name << ", rank " << world_rank
+        //          << " out of " << world_size << " processors: iteration " << i + 1
+        //          << ", result = " << result << ", time = " << elapsed_times[i] << " seconds" << std::endl;
     }
 
     // Calculate the average elapsed time

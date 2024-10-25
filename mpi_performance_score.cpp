@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     #endif
     
     // Set up a DPC++ queue to target the GPU and print backend information
-    queue q{gpu_selector{}};
+    queue q{gpu_selector_v};
     if (rank == 0) {
         std::cout << "Running on device: " << q.get_device().get_info<info::device::name>() << std::endl;
     }

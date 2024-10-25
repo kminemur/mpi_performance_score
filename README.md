@@ -7,17 +7,19 @@ mpirun -np 2 -ppn 1 ./mpi_performance_score
 
 ## Performance example
 ```
-(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 1 -ppn 1 ./mpi_performance_score
+(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 2 -ppn 4 ./mpi_performance_score
 MPI Version: 3.1
-Processor DUT7301PVC, rank 0: average time = 0.0135742seconds
-(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 2 -ppn 1 ./mpi_performance_score
+Copy to GPU time: 0.00399655 seconds
+Compute time: 8.97449e-05 seconds
+Copy to host time: 0.00263301 seconds
+(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 4 -ppn 4 ./mpi_performance_score
 MPI Version: 3.1
-Processor DUT7301PVC, rank 1: average time = 0.0143851seconds
-Processor DUT7301PVC, rank 0: average time = 0.0148761seconds
-(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 4 -ppn 1 ./mpi_performance_score
+Copy to GPU time: 0.00466524 seconds
+Compute time: 0.000117116 seconds
+Copy to host time: 0.00726988 seconds
+(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 4 -ppn 4 ./mpi_performance_score
 MPI Version: 3.1
-Processor DUT7301PVC, rank 0: average time = 0.0136245seconds
-Processor DUT7301PVC, rank 3: average time = 0.014263seconds
-Processor DUT7301PVC, rank 2: average time = 0.0150204seconds
-Processor DUT7301PVC, rank 1: average time = 0.0152163seconds
+Copy to GPU time: 0.00385451 seconds
+Compute time: 0.000109313 seconds
+Copy to host time: 0.0036589 seconds
 ```

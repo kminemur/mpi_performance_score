@@ -35,8 +35,8 @@ int main(int argc, char *argv[]) {
     }
 
     // Define the size of the data (increase the workload)
-    const long int N = 10000000000;
-    const long int local_N = N / size;
+    const int N = 1000000000;
+    const int local_N = N / size;
     std::vector<float> data(local_N, rank);
 
     // Allocate memory on the GPU for each rank's portion of the data
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     }).wait();
     
     // Initialize variables to accumulate times
-    const int iterations = 100;
+    const int iterations = 1000;
     double total_copy_to_gpu_time = 0.0;
     double total_compute_time = 0.0;
     double total_copy_to_host_time = 0.0;

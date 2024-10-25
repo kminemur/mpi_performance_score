@@ -21,17 +21,17 @@ int main(int argc, char *argv[]) {
         std::cout << "MPI Version: " << version << "." << subversion << std::endl;
     }
 
-    // Get and print the oneAPI version
-    const char* oneapi_version = std::getenv("ONEAPI_VERSION");
-    if (rank == 0 && oneapi_version) {
-        std::cout << "oneAPI Version: " << oneapi_version << std::endl;
-    }
-
+    // Get and print the Intel compiler version
+    #ifdef __INTEL_COMPILER
+        if (rank == 0) {
+            std::cout << "Intel Compiler Version: " << __INTEL_COMPILER << std::endl;
+        }
+    #endif
+    
     // Set up a DPC++ queue to target the GPU and print backend information
     queue q{gpu_selector{}};
     if (rank == 0) {
         std::cout << "Running on device: " << q.get_device().get_info<info::device::name>() << std::endl;
-        std::cout << "Backend: " << q.get_device().get_info<info::device::vendor>() << std::endl;
     }
 
     // Define the size of the data (increase the workload)

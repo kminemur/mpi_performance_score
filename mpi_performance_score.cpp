@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     // Calculate the average performance score (e.g., operations per second)
     double average_performance_score = array_size / average_time;
     std::cout << "Processor " << processor_name << ", rank " << world_rank
-              << ": average time = " << average time << "seconds" << std::endl;
+              << ": average time = " << average_time << "seconds" << std::endl;
 
     // Finalize the MPI environment
     MPI_Finalize();

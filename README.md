@@ -7,12 +7,17 @@ mpirun -np 2 -ppn 1 ./mpi_performance_score
 
 ## Performance example
 ```
+(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 1 -ppn 1 ./mpi_performance_score
+MPI Version: 3.1
+Processor DUT7301PVC, rank 0: average time = 0.0135742seconds
 (itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 2 -ppn 1 ./mpi_performance_score
-Processor DUT7301PVC, rank 0: average time = 0.0143139seconds
-Processor DUT7301PVC, rank 1: average time = 0.0144356seconds
+MPI Version: 3.1
+Processor DUT7301PVC, rank 1: average time = 0.0143851seconds
+Processor DUT7301PVC, rank 0: average time = 0.0148761seconds
 (itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 4 -ppn 1 ./mpi_performance_score
-Processor DUT7301PVC, rank 1: average time = 0.0143617seconds
-Processor DUT7301PVC, rank 2: average time = 0.0145375seconds
-Processor DUT7301PVC, rank 0: average time = 0.0145584seconds
-Processor DUT7301PVC, rank 3: average time = 0.014789seconds
+MPI Version: 3.1
+Processor DUT7301PVC, rank 0: average time = 0.0136245seconds
+Processor DUT7301PVC, rank 3: average time = 0.014263seconds
+Processor DUT7301PVC, rank 2: average time = 0.0150204seconds
+Processor DUT7301PVC, rank 1: average time = 0.0152163seconds
 ```

@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     queue q{gpu_selector{}};
 
     // Define the size of the data (increase the workload)
-    const int N = 1000000;
+    const int N = 10000000;
     std::vector<float> data(N, rank);
 
     // Allocate memory on the GPU

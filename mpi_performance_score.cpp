@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
     srand(time(NULL) + world_rank);
 
     // Define the size of the array to be summed
-    int array_size = 1000000;
+    int array_size = 10000000;
 
     // Define the number of iterations
     int num_iterations = 1000;

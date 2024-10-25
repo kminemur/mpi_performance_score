@@ -32,27 +32,40 @@ int main(int argc, char *argv[]) {
     // Allocate memory on the GPU for each rank's portion of the data
     float *d_data = malloc_device<float>(local_N, q);
 
-    // Measure the time for copying data to the GPU
-    double start_time = MPI_Wtime();
-    q.memcpy(d_data, data.data(), local_N * sizeof(float)).wait();
-    double copy_to_gpu_time = MPI_Wtime() - start_time;
-
     // warm-up
     q.parallel_for(range<1>(local_N), [=](id<1> i) {
         d_data[i] = std::sin(d_data[i]) * std::cos(d_data[i]) + std::sqrt(d_data[i]);
     }).wait();
     
-    // Measure the time for performing more complex computations on the GPU
-    start_time = MPI_Wtime();
-    q.parallel_for(range<1>(local_N), [=](id<1> i) {
-        d_data[i] = std::sin(d_data[i]) * std::cos(d_data[i]) + std::sqrt(d_data[i]);
-    }).wait();
-    double compute_time = MPI_Wtime() - start_time;
+    // Initialize variables to accumulate times
+    const int iterations = 10;
+    double total_copy_to_gpu_time = 0.0;
+    double total_compute_time = 0.0;
+    double total_copy_to_host_time = 0.0;
 
-    // Measure the time for copying results back to the host
-    start_time = MPI_Wtime();
-    q.memcpy(data.data(), d_data, local_N * sizeof(float)).wait();
-    double copy_to_host_time = MPI_Wtime() - start_time;
+    for (int iter = 0; iter < iterations; ++iter) {
+        // Measure the time for copying data to the GPU
+        double start_time = MPI_Wtime();
+        q.memcpy(d_data, data.data(), local_N * sizeof(float)).wait();
+        total_copy_to_gpu_time += MPI_Wtime() - start_time;
+
+        // Measure the time for performing more complex computations on the GPU
+        start_time = MPI_Wtime();
+        q.parallel_for(range<1>(local_N), [=](id<1> i) {
+            d_data[i] = std::sin(d_data[i]) * std::cos(d_data[i]) + std::sqrt(d_data[i]);
+        }).wait();
+        total_compute_time += MPI_Wtime() - start_time;
+
+        // Measure the time for copying results back to the host
+        start_time = MPI_Wtime();
+        q.memcpy(data.data(), d_data, local_N * sizeof(float)).wait();
+        total_copy_to_host_time += MPI_Wtime() - start_time;
+    }
+
+    // Calculate average times
+    double avg_copy_to_gpu_time = total_copy_to_gpu_time / iterations;
+    double avg_compute_time = total_compute_time / iterations;
+    double avg_copy_to_host_time = total_copy_to_host_time / iterations;
 
     // Free GPU memory
     free(d_data, q);
@@ -63,9 +76,9 @@ int main(int argc, char *argv[]) {
 
     // Print performance results on the root process
     if (rank == 0) {
-        std::cout << "Copy to GPU time: " << copy_to_gpu_time << " seconds" << std::endl;
-        std::cout << "Compute time: " << compute_time << " seconds" << std::endl;
-        std::cout << "Copy to host time: " << copy_to_host_time << " seconds" << std::endl;
+        std::cout << "Average copy to GPU time: " << avg_copy_to_gpu_time << " seconds" << std::endl;
+        std::cout << "Average compute time: " << avg_compute_time << " seconds" << std::endl;
+        std::cout << "Average copy to host time: " << avg_copy_to_host_time << " seconds" << std::endl;
     }
 
     // Finalize MPI

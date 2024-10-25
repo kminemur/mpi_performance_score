@@ -7,19 +7,19 @@ mpirun -np 2 -ppn 1 ./mpi_performance_score
 
 ## Performance example
 ```
+(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 1 -ppn 4 ./mpi_performance_score
+MPI Version: 3.1
+Copy to GPU time: 0.157356 seconds
+Compute time: 0.00735125 seconds
+Copy to host time: 0.217063 seconds
 (itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 2 -ppn 4 ./mpi_performance_score
 MPI Version: 3.1
-Copy to GPU time: 0.00399655 seconds
-Compute time: 8.97449e-05 seconds
-Copy to host time: 0.00263301 seconds
+Copy to GPU time: 0.0673648 seconds
+Compute time: 0.0034279 seconds
+Copy to host time: 0.0844298 seconds
 (itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 4 -ppn 4 ./mpi_performance_score
 MPI Version: 3.1
-Copy to GPU time: 0.00466524 seconds
-Compute time: 0.000117116 seconds
-Copy to host time: 0.00726988 seconds
-(itex_test) gta@DUT7301PVC:~/kazuki/mpi_performance_score$ mpirun -np 4 -ppn 4 ./mpi_performance_score
-MPI Version: 3.1
-Copy to GPU time: 0.00385451 seconds
-Compute time: 0.000109313 seconds
-Copy to host time: 0.0036589 seconds
+Copy to GPU time: 0.086862 seconds
+Compute time: 0.00172195 seconds
+Copy to host time: 0.111544 seconds
 ```

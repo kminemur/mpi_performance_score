@@ -95,6 +95,9 @@ int main(int argc, char** argv) {
     if (world_rank == 0) {
         std::cout << "MPI Version: " << version << "." << subversion << std::endl;
     }
+
+    // SYCL queue
+    queue q;
     
     // Seed the random number generator
     srand(time(NULL) + world_rank);
@@ -113,7 +116,8 @@ int main(int argc, char** argv) {
         double start_time = MPI_Wtime();
 
         // Perform the computation
-        double result = perform_computation(array_size);
+        //double result = perform_computation(array_size);
+        double result = perform_computation(q, array_size);
 
         // Stop the timer
         double end_time = MPI_Wtime();

@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <numeric>
 
 // Function to perform a simple computation: summing an array
 double perform_computation(int size) {
@@ -45,25 +46,37 @@ int main(int argc, char** argv) {
     // Define the size of the array to be summed
     int array_size = 1000000;
 
-    // Start the timer
-    double start_time = MPI_Wtime();
+    // Define the number of iterations
+    int num_iterations = 10000;
 
-    // Perform the computation
-    double result = perform_computation(array_size);
+    // Vector to store the elapsed times for each iteration
+    std::vector<double> elapsed_times(num_iterations);
 
-    // Stop the timer
-    double end_time = MPI_Wtime();
-    double elapsed_time = end_time - start_time;
+    for (int i = 0; i < num_iterations; ++i) {
+        // Start the timer
+        double start_time = MPI_Wtime();
 
-    // Print the result and the time taken
+        // Perform the computation
+        double result = perform_computation(array_size);
+
+        // Stop the timer
+        double end_time = MPI_Wtime();
+        elapsed_times[i] = end_time - start_time;
+
+        // Print the result and the time taken for this iteration
+        std::cout << "Processor " << processor_name << ", rank " << world_rank
+                  << " out of " << world_size << " processors: iteration " << i + 1
+                  << ", result = " << result << ", time = " << elapsed_times[i] << " seconds" << std::endl;
+    }
+
+    // Calculate the average elapsed time
+    double total_time = std::accumulate(elapsed_times.begin(), elapsed_times.end(), 0.0);
+    double average_time = total_time / num_iterations;
+
+    // Calculate the average performance score (e.g., operations per second)
+    double average_performance_score = array_size / average_time;
     std::cout << "Processor " << processor_name << ", rank " << world_rank
-              << " out of " << world_size << " processors: result = " << result
-              << ", time = " << elapsed_time << " seconds" << std::endl;
-
-    // Calculate the performance score (e.g., operations per second)
-    double performance_score = array_size / elapsed_time;
-    std::cout << "Processor " << processor_name << ", rank " << world_rank
-              << ": performance score = " << performance_score << " operations/second" << std::endl;
+              << ": average performance score = " << average_performance_score << " operations/second" << std::endl;
 
     // Finalize the MPI environment
     MPI_Finalize();

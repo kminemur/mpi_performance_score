@@ -40,6 +40,15 @@ int main(int argc, char** argv) {
     int name_len;
     MPI_Get_processor_name(processor_name, &name_len);
 
+    // Get the MPI version
+    int version, subversion;
+    MPI_Get_version(&version, &subversion);
+
+    // Print the MPI version information
+    if (world_rank == 0) {
+        std::cout << "MPI Version: " << version << "." << subversion << std::endl;
+    }
+    
     // Seed the random number generator
     srand(time(NULL) + world_rank);
 

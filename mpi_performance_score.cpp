@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     int array_size = 1000000;
 
     // Define the number of iterations
-    int num_iterations = 10000;
+    int num_iterations = 1000;
 
     // Vector to store the elapsed times for each iteration
     std::vector<double> elapsed_times(num_iterations);
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     // Calculate the average performance score (e.g., operations per second)
     double average_performance_score = array_size / average_time;
     std::cout << "Processor " << processor_name << ", rank " << world_rank
-              << ": average performance score = " << average_performance_score << " operations/second" << std::endl;
+              << ": average time = " << average time << "seconds" << std::endl;
 
     // Finalize the MPI environment
     MPI_Finalize();

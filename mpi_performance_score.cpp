@@ -4,6 +4,53 @@
 #include <cstdlib>
 #include <ctime>
 #include <numeric>
+#include <sycl/sycl.hpp>
+
+using namespace sycl;
+
+// SYCLカーネル: 配列の合計を計算
+double perform_computation(queue &q, int size) {
+    std::vector<double> h_array(size);
+
+    // 配列をランダムな値で初期化
+    for (int i = 0; i < size; ++i) {
+        h_array[i] = static_cast<double>(rand()) / RAND_MAX;
+    }
+
+    // デバイスメモリを割り当て
+    buffer<double, 1> d_array(h_array.data(), range<1>(size));
+    buffer<double, 1> d_result(1);
+
+    // SYCLカーネルを起動
+    q.submit([&](handler &h) {
+        auto array = d_array.get_access<access::mode::read>(h);
+        auto result = d_result.get_access<access::mode::write>(h);
+        accessor<double, 1, access::mode::read_write, access::target::local> local_mem(range<1>(256), h);
+
+        h.parallel_for<class sum_array>(nd_range<1>(range<1>((size + 255) / 256 * 256), range<1>(256)), [=](nd_item<1> item) {
+            int tid = item.get_local_id(0);
+            int i = item.get_global_id(0);
+            local_mem[tid] = (i < size) ? array[i] : 0.0;
+            item.barrier(access::fence_space::local_space);
+
+            // Reduction
+            for (int s = 256 / 2; s > 0; s >>= 1) {
+                if (tid < s) {
+                    local_mem[tid] += local_mem[tid + s];
+                }
+                item.barrier(access::fence_space::local_space);
+            }
+
+            if (tid == 0) {
+                atomic_fetch_add(result[0], local_mem[0]);
+            }
+        });
+    });
+
+    // デバイスからホストへ結果を転送
+    auto h_result = d_result.get_access<access::mode::read>();
+    return h_result[0];
+}
 
 // Function to perform a simple computation: summing an array
 double perform_computation(int size) {
